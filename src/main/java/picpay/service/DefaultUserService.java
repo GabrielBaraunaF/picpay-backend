@@ -40,13 +40,17 @@ public class DefaultUserService implements UserService {
 
     private void validateinsert(User user) {
         User userPO = repository.findByCpf(user.getCpf());
+
         if (userPO != null) {
             throw new ApplicationException("cpf ja cadastrado na base");
         }
-        User userPO2 = repository.findByEmail(user.getEmail());
-        if (userPO2 != null) {
+
+        userPO = repository.findByEmail(user.getEmail());
+
+        if (userPO != null) {
             throw new ApplicationException("email ja cadastrado na base");
         }
+
         repository.save(user);
     }
 

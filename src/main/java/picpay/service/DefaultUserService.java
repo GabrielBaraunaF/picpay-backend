@@ -11,7 +11,6 @@ public class DefaultUserService implements UserService {
 
     @Autowired
     private UserRepository repository;
-    private User userPO;
 
     @Override
     public User save(User user) {
@@ -20,7 +19,7 @@ public class DefaultUserService implements UserService {
         } else {
             validateUpdate(user);
         }
-        return user;
+        return repository.save(user);
     }
 
     @Override
@@ -48,21 +47,21 @@ public class DefaultUserService implements UserService {
         userPO = repository.findByEmail(user.getEmail());
 
         if (userPO != null) {
-            throw new ApplicationException("email ja cadastrado na base");
+            throw new ApplicationException("email já cadastrado na base");
         }
 
-        repository.save(user);
+        userPO = repository.findByAccountPix(user.getAccount().getPix());
+
+        if (userPO != null) {
+            throw new ApplicationException("PIX ja associado a outro usuário");
+        }
     }
 
     private void validateUpdate(User user) {
         User userPO = repository.findByAccountPix(user.getAccount().getPix());
-        if (userPO == null) {
-            if (userPO.getAccount().getNumber().equals(user.getAccount().getNumber())) {
-            } else {
-                repository.save(user);
-            }
-        } else {
-            throw new ApplicationException("PIX ja cadastrado na base");
+
+        if (userPO != null && !userPO.getId().equals(user.getId())) {
+            throw new ApplicationException("PIX ja associado a outro usuário");
         }
     }
 

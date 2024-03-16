@@ -12,7 +12,7 @@ public class User {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "ID_ACCOUNT", referencedColumnName = "id")
+    @JoinColumn(name = "ID_ACCOUNT", referencedColumnName = "number")
     private Account account;
 
     @Column(name = "NAME")

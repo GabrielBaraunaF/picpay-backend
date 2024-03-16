@@ -13,11 +13,11 @@ public class Transaction {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ACCOUNT_PAYEE", referencedColumnName = "id")
+    @JoinColumn(name = "ID_ACCOUNT_PAYEE", referencedColumnName = "number")
     private  Account payee;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ACCOUNT_PAYER", referencedColumnName = "id")
+    @JoinColumn(name = "ID_ACCOUNT_PAYER", referencedColumnName = "number")
     private Account payer;
 
     @Column(name = "VALUE")

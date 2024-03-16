@@ -55,7 +55,7 @@ public class DefaultUserService implements UserService {
     }
 
     private void validateUpdate(User user) {
-        User userPO = repository.findByAccountPIX(user.getAccount().getPix());
+        User userPO = repository.findByAccountPix(user.getAccount().getPix());
         if (userPO == null) {
             if (userPO.getAccount().getNumber().equals(user.getAccount().getNumber())) {
             } else {

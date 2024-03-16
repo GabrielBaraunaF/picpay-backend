@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PicpayApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main() {
+		PicpayApplication.main(new String[] {});
 	}
 
 }

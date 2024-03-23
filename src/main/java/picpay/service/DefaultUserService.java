@@ -33,7 +33,17 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void deleteById(Integer id) {
-        repository.deleteById(id);
+       Optional<User> user = repository.findById(id);
+       if (user.isPresent()){
+           repository.save(userDelete(user));
+       }
+
+    }
+
+    private  User userDelete(Optional<User> user) {
+        User userPO= user.get();
+        userPO.setActive(false);
+        return userPO;
     }
 
 

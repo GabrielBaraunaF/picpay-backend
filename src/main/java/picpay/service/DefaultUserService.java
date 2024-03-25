@@ -35,17 +35,14 @@ public class DefaultUserService implements UserService {
     public void deleteById(Integer id) {
        Optional<User> user = repository.findById(id);
        if (user.isPresent()){
-           repository.save(userDelete(user));
+            inactiveUser(user.get());
        }
-
     }
 
-    private  User userDelete(Optional<User> user) {
-        User userPO= user.get();
-        userPO.setActive(false);
-        return userPO;
+    private void inactiveUser(User user) {
+        user.setActive(false);
+        repository.save(user);
     }
-
 
     private void validateinsert(User user) {
         User userPO = repository.findByCpf(user.getCpf());

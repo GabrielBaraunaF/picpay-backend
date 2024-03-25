@@ -3,15 +3,17 @@ package picpay.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import picpay.entity.Account;
 import picpay.entity.User;
 import picpay.exception.ApplicationException;
 import picpay.repository.UserRepository;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,10 +26,23 @@ class UserServiceTest {
 
     @InjectMocks
     private DefaultUserService userService;
-@Test
+
+    @Captor
+    ArgumentCaptor<User> userCaptor;
+
+    @Test
     void givenUserWhenDeleteByIdMarksUserInactive() {
+        User userPO = getUser();
 
+        Optional<User> userOptional =  Optional.of(userPO);
 
+        when(repository.findById(userPO.getId())).thenReturn(userOptional);
+
+        userService.deleteById(userPO.getId());
+
+        verify(repository).save(userCaptor.capture());
+
+        assertEquals(false, userCaptor.getValue().getActive());
     }
 
 
@@ -69,7 +84,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Saving a new user with an existing email should throw an error")
+    @DisplayName("Saving a new user with an existing pix should throw an error")
     void givenNewUserWhenSavedWithAlreadyRegisteredPixlMustThrowException() {
         String pix = "gabriel@gmail.com";
         User userPO = getUser();
@@ -77,11 +92,13 @@ class UserServiceTest {
         when(repository.findByAccountPix(pix)).thenReturn(userPO);
 
         User user = getUser();
-        user.setEmail(null);
-        user.setCpf(null);
 
-        assertThrows(ApplicationException.class, () -> userService.save(user));
+        ApplicationException exception = assertThrows(
+                ApplicationException.class,
+                () -> { userService.save(user); }
+        );
 
+        assertEquals("PIX ja associado a outro usuário", exception.getMessage());
     }
 
 

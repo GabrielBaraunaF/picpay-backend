@@ -25,4 +25,5 @@ public class Transaction {
 
     @Column(name = "DATE")
     private LocalDateTime date;
+
 }

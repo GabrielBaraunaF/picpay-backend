@@ -101,7 +101,6 @@ class UserServiceTest {
         assertEquals("PIX ja associado a outro usuário", exception.getMessage());
     }
 
-
     @Test
     @DisplayName("Should save a new user successfully")
     void givenNewUserWhenSaveReturnUserCreated() {

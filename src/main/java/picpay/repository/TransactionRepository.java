@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction,Integer> {
 
-    @Query("SELECT * FROM transaction WHERE YEAR(date) = :year AND MONTH(date) =:month  AND DAY(date) =:day")
-    List<Transaction> findByDate(@Param("year") int year,@Param("Month") int month,@Param("day") int day);
+    @Query(value = "SELECT * FROM transaction WHERE YEAR(date) = :year AND MONTH(date) =:month  AND DAY(date) =:day", nativeQuery = true)
+    List<Transaction> findByDate(@Param("year") int year,@Param("month") int month,@Param("day") int day);
 
 }

@@ -9,5 +9,5 @@ import java.util.List;
 @Service
 public interface TransactionService {
     void save(Transaction transaction);
-    List<Transaction> transactionHistory(LocalDate date);
+    List<Transaction> transactionHistory(LocalDate date, int number);
 }

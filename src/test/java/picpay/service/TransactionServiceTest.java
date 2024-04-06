@@ -34,7 +34,8 @@ class TransactionServiceTest {
     ArgumentCaptor<Integer> monthCaptor;
     @Captor
     ArgumentCaptor<Integer> yearCaptor;
-
+    @Captor
+    ArgumentCaptor<Integer> numberCaptor;
 
 
     @Test
@@ -52,17 +53,19 @@ class TransactionServiceTest {
     void shouldReturnTransactionsForGivenDate(){
         LocalDate localDate=LocalDate.now();
         List<Transaction> transactionlist=getTransactionList();
+        int number=2255;
 
-        when(repository.findByDate(anyInt(),anyInt(),anyInt())).thenReturn(transactionlist);
+        when(repository.findByDate(anyInt(),anyInt(),anyInt(),anyInt())).thenReturn(transactionlist);
 
-        List<Transaction>transactionExpected = transactionService.transactionHistory(localDate);
+        List<Transaction>transactionExpected = transactionService.transactionHistory(localDate,number);
 
-        verify(repository).findByDate(dayCaptor.capture(),monthCaptor.capture(),yearCaptor.capture());
+        verify(repository).findByDate(dayCaptor.capture(),monthCaptor.capture(),yearCaptor.capture(),numberCaptor.capture());
 
         assertEquals(transactionExpected,transactionlist);
         assertEquals(localDate.getYear(),yearCaptor.getValue());
         assertEquals(localDate.getMonthValue(),monthCaptor.getValue());
         assertEquals(localDate.getDayOfMonth(),dayCaptor.getValue());
+        assertEquals(number,numberCaptor.getValue());
 
     }
     private List getTransactionList(){

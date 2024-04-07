@@ -19,7 +19,19 @@ public class DefaultUserService implements UserService {
         } else {
             validateUpdate(user);
         }
+        //Aplicar um algoritimo de hash na senha antes de salvar o objetp
+        //Pesquise no ChatGPT assim: "Aplicar um hash senha java" teste a soluçao e depois import a mesma para classe EncryptionUtil
         return repository.save(user);
+    }
+
+    @Override
+    public User authenticate(User user) {
+
+        // recuperar o user gravado no banco pelo email setado no usuario passado como parametro
+        // aplicar o mesmo algoritimo de hash no password vindo no objeto user passado como parametro
+        // se o user recuperado do banco não for nulo e o password do mesmo for igual ao password do user passado como parametro, retorno o user do banco
+        // se a condicão acima falha retornar uma ApplicationException informando que Email ou senha invélidos
+        return null;
     }
 
     @Override

@@ -5,10 +5,8 @@ import picpay.entity.User;
 
 @Service
 public interface UserService {
-
      User findById(Integer id);
      void deleteById(Integer id);
      User save(User user);
-
-
+     User authenticate(User user);
 }

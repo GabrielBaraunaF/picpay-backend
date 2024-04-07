@@ -12,13 +12,13 @@ import java.util.Properties;
 
 public class DefaultEmailSender implements EmailSenderService {
 
-    private final String MAIL = "luizsergio.barauna@gmail.com";
+    private final String EMAIL_FROM = "luizsergio.barauna@gmail.com";
 
     @Override
     public void sendEmail(String emailTo, String bodyEmail, String subjectEmail)  {
         try {
             Message message = new MimeMessage(getSession());
-            message.setFrom(new InternetAddress(MAIL));
+            message.setFrom(new InternetAddress(EMAIL_FROM));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
             message.setSubject(subjectEmail);
             message.setText(bodyEmail);
@@ -33,7 +33,7 @@ public class DefaultEmailSender implements EmailSenderService {
 
     private Session getSession() {
         String host = "smtp.gmail.com";
-        String username = MAIL;
+        String username = EMAIL_FROM;
         String password = "dosg ixtb suao ofut";
 
         Properties props = new Properties();

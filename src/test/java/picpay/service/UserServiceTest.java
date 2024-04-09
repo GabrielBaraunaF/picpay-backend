@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static picpay.service.DefaultUserService.MSG_AUTHENTICATE_FAIL;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -30,6 +31,7 @@ class UserServiceTest {
 
     @Captor
     ArgumentCaptor<User> userCaptor;
+
 
     @Test
     void givenUserWhenDeleteByIdMarksUserInactive() {
@@ -136,7 +138,7 @@ class UserServiceTest {
                 }
         );
         assertThrows(ApplicationException.class, () -> userService.authenticate(user));
-        assertEquals("email ou senha invalidos", exception.getMessage());
+        assertEquals(MSG_AUTHENTICATE_FAIL, exception.getMessage());
 
     }
 
@@ -149,7 +151,7 @@ class UserServiceTest {
         when(repository.findByEmail(user.getEmail())).thenReturn(user);
 
         User userExpected = getUser();
-        userExpected.setPassword("12345");
+        userExpected.setPassword(generateHashPassword("1234567"));
         userExpected.setEmail("teste@gmail.com");
 
         ApplicationException exception = assertThrows(
@@ -158,7 +160,7 @@ class UserServiceTest {
                     userService.authenticate(userExpected);
                 }
         );
-        assertEquals("email ou senha invalidos", exception.getMessage());
+        assertEquals(MSG_AUTHENTICATE_FAIL, exception.getMessage());
 
     }
 
@@ -186,6 +188,7 @@ class UserServiceTest {
         User user = new User();
         user.setName("Gabriel");
         user.setCpf("999.999.999-99");
+        user.setPassword("12345");
 
         Account account = new Account();
         account.setBalance(10d);

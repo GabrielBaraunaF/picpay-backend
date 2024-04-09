@@ -3,7 +3,7 @@ package picpay.dto;
 import lombok.Data;
 import picpay.entity.Account;
 @Data
-public class UsersDTO {
+public class UserDTO {
 
     private Integer id;
 

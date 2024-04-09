@@ -5,6 +5,7 @@ import picpay.entity.User;
 import picpay.exception.ApplicationException;
 import picpay.repository.UserRepository;
 
+import java.security.MessageDigest;
 import java.util.Optional;
 
 public class DefaultUserService implements UserService {
@@ -19,19 +20,20 @@ public class DefaultUserService implements UserService {
         } else {
             validateUpdate(user);
         }
-        //Aplicar um algoritimo de hash na senha antes de salvar o objetp
-        //Pesquise no ChatGPT assim: "Aplicar um hash senha java" teste a soluçao e depois import a mesma para classe EncryptionUtil
+        user.setPassword(generateHashPassword(user.getPassword()));
         return repository.save(user);
     }
 
     @Override
     public User authenticate(User user) {
+        user.setPassword(generateHashPassword(user.getPassword()));
 
-        // recuperar o user gravado no banco pelo email setado no usuario passado como parametro
-        // aplicar o mesmo algoritimo de hash no password vindo no objeto user passado como parametro
-        // se o user recuperado do banco não for nulo e o password do mesmo for igual ao password do user passado como parametro, retorno o user do banco
-        // se a condicão acima falha retornar uma ApplicationException informando que Email ou senha invélidos
-        return null;
+        User userExists = repository.findByEmail(user.getEmail());
+
+        if (userExists != null && userExists.getPassword().equals(user.getPassword())) {
+            return userExists;
+        }
+        throw new ApplicationException("email ou senha invalidos");
     }
 
     @Override
@@ -45,10 +47,10 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void deleteById(Integer id) {
-       Optional<User> user = repository.findById(id);
-       if (user.isPresent()){
+        Optional<User> user = repository.findById(id);
+        if (user.isPresent()) {
             inactiveUser(user.get());
-       }
+        }
     }
 
     private void inactiveUser(User user) {
@@ -81,6 +83,21 @@ public class DefaultUserService implements UserService {
 
         if (userPO != null && !userPO.getId().equals(user.getId())) {
             throw new ApplicationException("PIX ja associado a outro usuário");
+        }
+    }
+
+    private String generateHashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new ApplicationException("falha ao gerar senha");
         }
     }
 

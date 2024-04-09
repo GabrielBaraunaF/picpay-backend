@@ -13,6 +13,7 @@ import picpay.entity.User;
 import picpay.exception.ApplicationException;
 import picpay.repository.UserRepository;
 
+import java.security.MessageDigest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +35,7 @@ class UserServiceTest {
     void givenUserWhenDeleteByIdMarksUserInactive() {
         User userPO = getUser();
 
-        Optional<User> userOptional =  Optional.of(userPO);
+        Optional<User> userOptional = Optional.of(userPO);
 
         when(repository.findById(userPO.getId())).thenReturn(userOptional);
 
@@ -95,7 +96,9 @@ class UserServiceTest {
 
         ApplicationException exception = assertThrows(
                 ApplicationException.class,
-                () -> { userService.save(user); }
+                () -> {
+                    userService.save(user);
+                }
         );
 
         assertEquals("PIX ja associado a outro usuário", exception.getMessage());
@@ -118,6 +121,67 @@ class UserServiceTest {
         assertEquals(userExpected, userActual);
     }
 
+    @Test
+    void shouldThrowExceptionWhenAuthenticateUserEmailNotFound() {
+        User user = getUser();
+        user.setPassword("123456");
+        user.setEmail("teste@gmail.com");
+
+        when(repository.findByEmail("teste@gmail.com")).thenReturn(null);
+
+        ApplicationException exception = assertThrows(
+                ApplicationException.class,
+                () -> {
+                    userService.authenticate(user);
+                }
+        );
+        assertThrows(ApplicationException.class, () -> userService.authenticate(user));
+        assertEquals("email ou senha invalidos", exception.getMessage());
+
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAuthenticateUserPasswordNotEquals() {
+        User user = getUser();
+        user.setPassword(generateHashPassword("123456"));
+        user.setEmail("teste@gmail.com");
+
+        when(repository.findByEmail(user.getEmail())).thenReturn(user);
+
+        User userExpected = getUser();
+        userExpected.setPassword("12345");
+        userExpected.setEmail("teste@gmail.com");
+
+        ApplicationException exception = assertThrows(
+                ApplicationException.class,
+                () -> {
+                    userService.authenticate(userExpected);
+                }
+        );
+        assertEquals("email ou senha invalidos", exception.getMessage());
+
+    }
+
+    @Test
+    void givenUserAuthenticateWithSuccess() {
+        User user = getUser();
+        user.setEmail("teste@gmail.com");
+
+        User userExpected = getUser();
+        userExpected.setPassword(generateHashPassword("123456"));
+        userExpected.setEmail("teste@gmail.com");
+
+        when(repository.findByEmail("teste@gmail.com")).thenReturn(userExpected);
+
+        User userCompare = getUser();
+        userCompare.setPassword("123456");
+        userCompare.setEmail("teste@gmail.com");
+        User userActual = userService.authenticate(userCompare);
+
+        assertEquals(userExpected, userActual);
+
+    }
+
     private static User getUser() {
         User user = new User();
         user.setName("Gabriel");
@@ -131,4 +195,18 @@ class UserServiceTest {
         return user;
     }
 
+    private String generateHashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new ApplicationException("falha ao gerar senha");
+        }
+    }
 }

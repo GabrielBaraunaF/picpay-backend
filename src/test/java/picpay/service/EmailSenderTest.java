@@ -3,7 +3,7 @@ package picpay.service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import picpay.exception.ApplicationException;
 
@@ -14,15 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmailSenderTest {
     @InjectMocks
     private DefaultEmailSender emailSenderService;
-    @Mock
-    private Session session;
 
     @Test
-    void shouldthroeExceptionWhenSendEmailFailed(){
+    void shouldthrowExceptionWhenSendEmailFailed(){
         ApplicationException exception = assertThrows(
                 ApplicationException.class,
                 () -> { emailSenderService.sendEmail("testegmail.com","corpo","corpo"); }
         );
         assertEquals("erro ao enviar o email",exception.getMessage());
+    }
+    void givenEmailSendWithSucess(){
+
     }
 }

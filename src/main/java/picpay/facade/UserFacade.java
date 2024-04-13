@@ -1,5 +1,6 @@
 package picpay.facade;
 
+import org.springframework.stereotype.Service;
 import picpay.dto.TransactionDTO;
 import java.time.LocalDate;
 import java.util.List;

@@ -1,13 +1,14 @@
 package picpay.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import picpay.entity.User;
 import picpay.exception.ApplicationException;
 import picpay.repository.UserRepository;
 import java.util.Optional;
 
 import static picpay.util.EncryptionUtil.generateHash;
-
+@Service
 public class DefaultUserService implements UserService {
 
     @Autowired

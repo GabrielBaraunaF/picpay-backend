@@ -15,9 +15,9 @@ public interface TransactionRepository extends JpaRepository<Transaction,Integer
             "        FROM transaction\n" +
             "        WHERE YEAR(date) = :year AND MONTH(date) = :month AND DAY(date) = :day\n" +
             "        AND (\n" +
-            "        ID_ACCOUNT_PAYER IN (:number)\n" +
+            "        ID_ACCOUNT_PAYER IN (:accountNumber)\n" +
             "        OR ID_ACCOUNT_PAYEE IN (:accountNumber)\n" +
             "        );", nativeQuery = true)
-    List<Transaction> findByDate(@Param("year") int year,@Param("month") int month,@Param("day") int day,@Param("number") int accountNumber);
+    List<Transaction> findByDate(@Param("year") int year,@Param("month") int month,@Param("day") int day,@Param("accountNumber") int accountNumber);
 
 }

@@ -1,12 +1,13 @@
 package picpay.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import picpay.entity.Transaction;
 import picpay.repository.TransactionRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-
+@Service
 public class DefaultTransactionService implements  TransactionService {
     @Autowired
     TransactionRepository repository;
@@ -18,6 +19,6 @@ public class DefaultTransactionService implements  TransactionService {
 
     @Override
     public List<Transaction> transactionHistory(LocalDate date, int accountNumber) {
-       return repository.findByDate(date.getDayOfMonth(),date.getMonthValue(), date.getYear(), accountNumber);
+       return repository.findByDate(date.getYear(),date.getMonthValue(),date.getDayOfMonth(),accountNumber);
     }
 }

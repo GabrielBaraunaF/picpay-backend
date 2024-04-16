@@ -1,18 +1,25 @@
 package picpay.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import picpay.dto.TransactionDTO;
+import picpay.dto.UserDTO;
 import picpay.entity.Transaction;
 import picpay.service.TransactionService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class DefaultUserFacade implements UserFacade {
     @Autowired
     private TransactionService transactionService;
+
+    @Override
+    public UserDTO createAccount(UserDTO userDTO) {
+        return null;
+    }
 
     @Override
     public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber) {
@@ -21,9 +28,6 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     private List<TransactionDTO> converter(List<Transaction> transactions) {
-        if (transactions.isEmpty()) {
-
-        }
         return transactions
                 .stream()
                 .map(dto -> {

@@ -7,7 +7,9 @@ public class UserDTO {
 
     private Integer id;
 
-    private Account account;
+    private Integer accountNumber;
+
+    private String keyPix;
 
     private String name;
 

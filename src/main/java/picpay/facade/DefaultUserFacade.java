@@ -2,23 +2,31 @@ package picpay.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import picpay.dto.TransactionDTO;
 import picpay.dto.UserDTO;
+import picpay.entity.Account;
 import picpay.entity.Transaction;
+import picpay.entity.User;
 import picpay.service.TransactionService;
+import picpay.service.UserService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Component
 public class DefaultUserFacade implements UserFacade {
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDTO createAccount(UserDTO userDTO) {
-        return null;
+        User user = userService.save(converterUser(userDTO));
+        userDTO.setId(user.getId());
+        userDTO.setAccountNumber(user.getAccount().getNumber());
+        return userDTO;
     }
 
     @Override
@@ -38,5 +46,18 @@ public class DefaultUserFacade implements UserFacade {
                     transactionDTO.setDate(dto.getDate());
                     return transactionDTO;
                 }).collect(Collectors.toList());
+    }
+
+    private User converterUser(UserDTO userDTO) {
+        User user = new User();
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setCpf(userDTO.getCpf());
+        user.setName(userDTO.getName());
+
+        Account account = new Account();
+        user.setAccount(account);
+        account.setPix(userDTO.getKeyPix());
+        return user;
     }
 }

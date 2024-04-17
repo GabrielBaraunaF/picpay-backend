@@ -11,7 +11,7 @@ public class User {
     @Column(name = "ID")
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ID_ACCOUNT", referencedColumnName = "number")
     private Account account;
 

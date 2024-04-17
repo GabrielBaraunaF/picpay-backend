@@ -11,7 +11,7 @@ public interface UserFacade {
 
     public UserDTO createAccount(UserDTO userDTO);
 
-    //public void inactivateAccount(UserDTO userDTO);
+    public void inactivateAccount(UserDTO userDTO);
 
     public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber);
 

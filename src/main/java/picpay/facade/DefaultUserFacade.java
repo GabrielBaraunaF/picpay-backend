@@ -30,6 +30,11 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
+    public void inactivateAccount(UserDTO userDTO) {
+        userService.deleteById(userDTO.getId());
+    }
+
+    @Override
     public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber) {
         List<TransactionDTO> transactionDTOS = converter(transactionService.transactionHistory(date, accountNumber));
         return transactionDTOS;

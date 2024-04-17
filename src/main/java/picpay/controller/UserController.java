@@ -26,11 +26,13 @@ public class UserController {
     public UserDTO createAccount(@RequestBody UserDTO userDTO){
         return userFacade.createAccount(userDTO);
     }
-
-    public UserDTO inactiveAccount(){
-        return null;
+    @DeleteMapping("/")
+    public void inactiveAccount(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1);
+        userFacade.inactivateAccount(userDTO);
     }
 
-//post(/)
+
 
 }

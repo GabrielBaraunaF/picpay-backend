@@ -3,6 +3,7 @@ package picpay.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import picpay.dto.AccountDTO;
 import picpay.dto.TransactionDTO;
 import picpay.dto.UserDTO;
 import picpay.facade.UserFacade;
@@ -31,6 +32,10 @@ public class UserController {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1);
         userFacade.inactivateAccount(userDTO);
+    }
+    //nao gostei do nome
+    public void createTransaction(@RequestBody AccountDTO accountDTO){
+        userFacade.transfer();
     }
 
 

@@ -1,5 +1,6 @@
 package picpay.service;
 
+import org.springframework.stereotype.Service;
 import picpay.exception.ApplicationException;
 
 import javax.mail.Message;
@@ -9,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
-
+@Service
 public class DefaultEmailSender implements EmailSenderService {
 
     private final String EMAIL_FROM = "luizsergio.barauna@gmail.com";

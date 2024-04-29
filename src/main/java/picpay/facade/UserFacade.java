@@ -1,6 +1,7 @@
 package picpay.facade;
 
 import org.springframework.stereotype.Service;
+import picpay.dto.AccountDTO;
 import picpay.dto.TransactionDTO;
 import picpay.dto.UserDTO;
 
@@ -15,6 +16,6 @@ public interface UserFacade {
 
     public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber);
 
-    //public void transfer(Integer accountNumberPayer, Integer accountNumberPayee, double valor );
+    public void transfer(AccountDTO accountDTO);
 
 }

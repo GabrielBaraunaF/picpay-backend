@@ -2,13 +2,14 @@ package picpay.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import picpay.api.DefaultTransferAuthorizerAPI;
+import picpay.dto.AccountDTO;
 import picpay.dto.TransactionDTO;
 import picpay.dto.UserDTO;
 import picpay.entity.Account;
 import picpay.entity.Transaction;
 import picpay.entity.User;
-import picpay.service.TransactionService;
-import picpay.service.UserService;
+import picpay.service.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +21,13 @@ public class DefaultUserFacade implements UserFacade {
     private TransactionService transactionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private EmailSenderService emailSenderService;
+    @Autowired
+    private DefaultTransferAuthorizerAPI transferAuthorizerAPI;
+
 
     @Override
     public UserDTO createAccount(UserDTO userDTO) {
@@ -39,6 +47,20 @@ public class DefaultUserFacade implements UserFacade {
         List<TransactionDTO> transactionDTOS = converter(transactionService.transactionHistory(date, accountNumber));
         return transactionDTOS;
     }
+
+    @Override
+    public void transfer(AccountDTO accountDTO) {
+        //preciso verificar se é um usuario e nao um lojista, mas nao sei como pegar o usario.
+        if (transferAuthorizerAPI.isAuthorized() &&){
+            accountService.debitar(accountNumberPayer,value);
+            accountService.creditar(accountNumberPayee,value);
+            emailSenderService.sendEmail("gbferreira08@gmail.com","Foi transferido para sua conta um valor de R$"+accountDTO.getValue(),"valor transferido para sua conta");
+
+        }
+
+
+    }
+
 
     private List<TransactionDTO> converter(List<Transaction> transactions) {
         return transactions

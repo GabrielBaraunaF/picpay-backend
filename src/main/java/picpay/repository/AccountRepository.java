@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AccountRepository extends JpaRepository<Account,Integer> {
 
     Account findByNumber(int Number);
+    Account findByPix(String KeyPix);
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DefaultUserFacade implements UserFacade {
+public class   DefaultUserFacade implements UserFacade {
     @Autowired
     private TransactionService transactionService;
     @Autowired
@@ -50,10 +50,11 @@ public class DefaultUserFacade implements UserFacade {
 
     @Override
     public void transfer(AccountDTO accountDTO) {
-        //preciso verificar se é um usuario e nao um lojista, mas nao sei como pegar o usario.
-        if (transferAuthorizerAPI.isAuthorized() &&){
-            accountService.debitar(accountNumberPayer,value);
-            accountService.creditar(accountNumberPayee,value);
+
+        //preciso verificar se é um usuario do tipo certo, no caso o usuario logado.
+        if (transferAuthorizerAPI.isAuthorized()){
+            accountService.debitar(accountDTO.getAccountIdLogged(), accountDTO.getValue());
+            accountService.creditar(accountDTO.getKeypix(), accountDTO.getValue());
             emailSenderService.sendEmail("gbferreira08@gmail.com","Foi transferido para sua conta um valor de R$"+accountDTO.getValue(),"valor transferido para sua conta");
 
         }

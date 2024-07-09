@@ -35,7 +35,7 @@ public class UserController {
     }
     //nao gostei do nome
     public void createTransaction(@RequestBody AccountDTO accountDTO){
-        userFacade.transfer();
+        userFacade.transfer(accountDTO);
     }
 
 

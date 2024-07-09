@@ -1,4 +1,4 @@
 package picpay.enums;
 
-public class UserType {
+public  enum UserType {
 }

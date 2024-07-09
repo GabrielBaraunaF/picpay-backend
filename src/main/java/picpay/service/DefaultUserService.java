@@ -24,6 +24,7 @@ public class DefaultUserService implements UserService {
             validateUpdate(user);
         }
         user.setPassword(generateHash(user.getPassword()));
+        user.setActive(true);
         return repository.save(user);
     }
 

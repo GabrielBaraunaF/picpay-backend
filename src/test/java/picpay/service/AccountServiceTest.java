@@ -39,9 +39,9 @@ class AccountServiceTest {
     void givenAccountShouldCredit() {
         Account account = getAccount();
 
-        when(repository.findByNumber(account.getNumber())).thenReturn(account);
+        when(repository.findByPix(account.getPix())).thenReturn(account);
 
-        accountService.creditar(account.getNumber(), 50d);
+        accountService.creditar(account.getPix(), 50d);
 
         verify(repository).save(accountCaptor.capture());
         assertEquals(150d, accountCaptor.getValue().getBalance());
@@ -49,7 +49,7 @@ class AccountServiceTest {
 
     private Account getAccount() {
         Account account = new Account();
-        account.setNumber(2205);
+        account.setPix("09190851560");
         account.setBalance(100d);
         return account;
     }

@@ -21,8 +21,8 @@ public class DefaultAccountService implements AccountService {
     }
 
     @Override
-    public void creditar(Integer number, Double value) {
-        Account account = repository.findByNumber(number);
+    public void creditar(String keyPix, Double value) {
+        Account account = repository.findByPix(keyPix);
         if (account != null) {
             account.setBalance(account.getBalance() + value);
             repository.save(account);

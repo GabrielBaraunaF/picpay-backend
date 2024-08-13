@@ -18,7 +18,7 @@ public class DefaultTransactionService implements  TransactionService {
     }
 
     @Override
-    public List<Transaction> transactionHistory(LocalDate date, int accountNumber) {
+    public List<Transaction> transactionByDate(LocalDate date, int accountNumber) {
        return repository.findByDate(date.getYear(),date.getMonthValue(),date.getDayOfMonth(),accountNumber);
     }
 }

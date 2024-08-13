@@ -43,8 +43,8 @@ public class   DefaultUserFacade implements UserFacade {
     }
 
     @Override
-    public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber) {
-        List<TransactionDTO> transactionDTOS = converter(transactionService.transactionHistory(date, accountNumber));
+    public List<TransactionDTO> transactionByDate(LocalDate date, int accountNumber) {
+        List<TransactionDTO> transactionDTOS = converter(transactionService.transactionByDate(date, accountNumber));
         return transactionDTOS;
     }
 
@@ -59,6 +59,10 @@ public class   DefaultUserFacade implements UserFacade {
 
         }
 
+
+    }
+
+    public void allTransaction(){
 
     }
 

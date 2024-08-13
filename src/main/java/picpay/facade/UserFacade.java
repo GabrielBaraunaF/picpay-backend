@@ -14,7 +14,7 @@ public interface UserFacade {
 
     public void inactivateAccount(UserDTO userDTO);
 
-    public List<TransactionDTO> transactionHistory(LocalDate date, int accountNumber);
+    public List<TransactionDTO> transactionByDate(LocalDate date, int accountNumber);
 
     public void transfer(AccountDTO accountDTO);
 

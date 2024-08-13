@@ -56,7 +56,7 @@ class TransactionServiceTest {
 
         when(repository.findByDate(anyInt(),anyInt(),anyInt(),anyInt())).thenReturn(transactionlist);
 
-        List<Transaction>transactionExpected = transactionService.transactionHistory(localDate,number);
+        List<Transaction>transactionExpected = transactionService.transactionByDate(localDate,number);
 
         verify(repository).findByDate(dayCaptor.capture(),monthCaptor.capture(),yearCaptor.capture(),numberCaptor.capture());
 

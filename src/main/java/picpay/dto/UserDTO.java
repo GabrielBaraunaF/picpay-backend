@@ -25,7 +25,7 @@ public class UserDTO {
 
     private String password;
 
-    private UserType type;
+    private Character type;
 
     private Boolean active;
 

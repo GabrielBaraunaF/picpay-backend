@@ -18,4 +18,6 @@ public interface UserFacade {
 
     public void transfer(AccountDTO accountDTO);
 
+    public List<TransactionDTO> transactionHistory(int accountNumber);
+
 }

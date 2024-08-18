@@ -18,6 +18,13 @@ public interface TransactionRepository extends JpaRepository<Transaction,Integer
             "        ID_ACCOUNT_PAYER IN (:accountNumber)\n" +
             "        OR ID_ACCOUNT_PAYEE IN (:accountNumber)\n" +
             "        );", nativeQuery = true)
-    List<Transaction> findByDate(@Param("year") int year,@Param("month") int month,@Param("day") int day,@Param("accountNumber") int accountNumber);
+    List<Transaction> findByDate(@Param("year") int year, @Param("month") int month, @Param("day") int day, @Param("accountNumber") int accountNumber);
 
+
+    @Query(value = "SELECT *" +
+            " FROM TRANSACTION" +
+            " WHERE ID_ACCOUNT_PAYER IN (:accountNumber)" +
+            " OR" +
+            " ID_ACCOUNT_PAYEE IN (:accountNumber)", nativeQuery = true)
+    List<Transaction> findByUser(@Param("accountNumber") int accountNumber);
 }

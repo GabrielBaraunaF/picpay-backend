@@ -61,9 +61,9 @@ public class   DefaultUserFacade implements UserFacade {
 
 
     }
-
-    public void allTransaction(){
-
+    @Override
+    public List<TransactionDTO> transactionHistory(int acountNumber){
+        return converter(transactionService.transactionHistory(acountNumber));
     }
 
 

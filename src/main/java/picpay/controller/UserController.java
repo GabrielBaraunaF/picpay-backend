@@ -56,9 +56,9 @@ public class UserController {
         return userDTO;
     }
     @GetMapping("/transactions")
-    public List<TransactionDTO> allTransaction(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate date){
-        Integer accountNumber = 2;
-        return userFacade.transactionByDate(date,accountNumber);
+    public List<TransactionDTO> allTransaction(){
+        Integer accountNumber = 1;
+        return userFacade.transactionHistory(accountNumber);
     }
 
 

@@ -24,6 +24,6 @@ public class DefaultTransactionService implements  TransactionService {
 
     @Override
     public List<Transaction> transactionHistory(int accountNumber) {
-        return repository.findAllById(accountNumber);
+        return repository.findByUser(accountNumber);
     }
 }
